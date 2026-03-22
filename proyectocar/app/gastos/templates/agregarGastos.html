@@ -9,12 +9,104 @@
 
 <style>
 
-body{
-background:#f4f6fb;
+body {
+    background: #f9fbfd;
+    color: #5a6c7d;
 }
 
-.card{
-border-radius:15px;
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    color: #3d4d5c;
+    font-weight: 700;
+    border-bottom: 3px solid #a8d8f0;
+    padding-bottom: 15px;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+    border: 1px solid #dce8f0;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #a8d8f0;
+    box-shadow: 0 0 0 0.2rem rgba(168, 216, 240, 0.2);
+}
+
+.form-label {
+    color: #3d4d5c;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.text-danger {
+    color: #ff9da5 !important;
+}
+
+.error-text {
+    color: #ff9da5;
+    font-size: 0.85em;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.help-text {
+    color: #9bb1bb;
+    font-size: 0.85em;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #a8e6a1 0%, #87d98c 100%);
+    border: none;
+    font-weight: 600;
+    color: #3d4d5c;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #87d98c 0%, #66cc7a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 230, 161, 0.4);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #a8d8f0 0%, #87ceeb 100%);
+    border: none;
+    font-weight: 600;
+    color: #3d4d5c;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #87ceeb 0%, #7dbddd 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 216, 240, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ffb3ba 0%, #ff9da5 100%);
+    border: none;
+    font-weight: 600;
+    color: #3d4d5c;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #ff9da5 0%, #ff8b95 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.alert-danger {
+    background-color: #fadbd8;
+    border-color: #e74c3c;
+    color: #c0392b;
 }
 
 </style>
@@ -33,46 +125,94 @@ border-radius:15px;
 
 <h2 class="text-center mb-4">Agregar Nuevo Gasto</h2>
 
-<form method="post" enctype="multipart/form-data">
+{% if form.non_field_errors %}
+<div class="alert alert-danger">
+    <strong>Errores del formulario:</strong>
+    <ul>
+    {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" novalidate>
 {% csrf_token %}
 
 <div class="mb-3">
-<label class="form-label">Descripción</label>
+<label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción <span class="text-danger">*</span></label>
 {{ form.descripcion }}
+{% if form.descripcion.errors %}
+    {% for error in form.descripcion.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="mb-3">
-<label class="form-label">Monto</label>
+<label for="{{ form.monto.id_for_label }}" class="form-label">Monto <span class="text-danger">*</span></label>
 {{ form.monto }}
+{% if form.monto.errors %}
+    {% for error in form.monto.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="mb-3">
-<label class="form-label">Categoría</label>
+<label for="{{ form.categoria.id_for_label }}" class="form-label">Categoría <span class="text-danger">*</span></label>
 {{ form.categoria }}
+{% if form.categoria.errors %}
+    {% for error in form.categoria.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="mb-3">
-<label class="form-label">Fecha</label>
+<label for="{{ form.fecha.id_for_label }}" class="form-label">Fecha <span class="text-danger">*</span></label>
 {{ form.fecha }}
+{% if form.fecha.help_text %}
+    <span class="help-text">{{ form.fecha.help_text }}</span>
+{% endif %}
+{% if form.fecha.errors %}
+    {% for error in form.fecha.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="mb-3">
-<label class="form-label">Persona</label>
+<label for="{{ form.persona.id_for_label }}" class="form-label">Persona (Opcional)</label>
 {{ form.persona }}
+{% if form.persona.errors %}
+    {% for error in form.persona.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="mb-3">
-<label class="form-label">Imagen del gasto</label>
+<label for="{{ form.imagengasto.id_for_label }}" class="form-label">Imagen del gasto (Opcional)</label>
 {{ form.imagengasto }}
+{% if form.imagengasto.errors %}
+    {% for error in form.imagengasto.errors %}
+        <span class="error-text">{{ error }}</span>
+    {% endfor %}
+{% endif %}
 </div>
 
 <div class="text-center mt-4">
 
-<button type="submit" class="btn btn-success">
+<button type="submit" class="btn btn-success btn-lg">
 Agregar Gasto
 </button>
 
-<a href="/iniciogastos/" class="btn btn-danger">
+<a href="{% url 'ver_gastos' %}" class="btn btn-info btn-lg">
+Ver Gastos
+</a>
+
+<a href="{% url 'inicio' %}" class="btn btn-danger btn-lg">
 Cancelar
 </a>
 

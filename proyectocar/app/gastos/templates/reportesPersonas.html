@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes por Persona</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f9fbfd;
+            color: #5a6c7d;
+        }
+        .card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d9ebf5 100%);
+            color: #3d4d5c;
+            border-radius: 12px 12px 0 0;
+            font-weight: bold;
+            padding: 15px;
+        }
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .summary-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .summary-box h6 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .summary-box h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .summary-box.positive h3 {
+            color: #87d98c;
+        }
+        .summary-box.negative h3 {
+            color: #ff9da5;
+        }
+        .table {
+            background: white;
+        }
+        .table thead {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d9ebf5 100%);
+            color: #3d4d5c;
+            border: none;
+        }
+        .table th {
+            color: white;
+            font-weight: bold;
+            vertical-align: middle;
+            border: none;
+            padding: 15px 10px;
+        }
+        .table td {
+            vertical-align: middle;
+            border-bottom: 1px solid #dce8f0;
+            padding: 12px 10px;
+        }
+        .persona-name {
+            font-weight: bold;
+            color: #3d4d5c;
+        }
+        .badge-success {
+            background: #a8e6a1;
+            color: #3d4d5c;
+        }
+        .badge-danger {
+            background: #ffb3ba;
+            color: #3d4d5c;
+        }
+        .currency {
+            text-align: right;
+            font-weight: 600;
+        }
+        .positive-text {
+            color: #87d98c;
+        }
+        .negative-text {
+            color: #ff9da5;
+        }
+        .btn-group-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .total-row {
+            background: #f9f9f9;
+            font-weight: bold;
+            border-top: 2px solid #3498db;
+        }
+        h1 {
+            color: #3d4d5c;
+            font-weight: 700;
+        }
+        .total-row {
+            background: #f0f7fb;
+            font-weight: bold;
+            border-top: 2px solid #a8d8f0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>👥 Reportes por Persona</h1>
+        <div>
+            <a href="{% url 'inicio' %}" class="btn btn-secondary">← Inicio</a>
+        </div>
+    </div>
+
+    <!-- Resumen General -->
+    <div class="summary-row">
+        <div class="summary-box">
+            <h6>Ingresos Totales</h6>
+            <h3>${{ total_ingresos }}</h3>
+        </div>
+        <div class="summary-box">
+            <h6>Gastos Registrados</h6>
+            <h3>${{ total_gastos }}</h3>
+        </div>
+        <div class="summary-box">
+            <h6>Gastos Asignados</h6>
+            <h3>${{ total_asignados }}</h3>
+        </div>
+        <div class="summary-box {% if saldo_general >= 0 %}positive{% else %}negative{% endif %}">
+            <h6>Saldo General</h6>
+            <h3 class="{% if saldo_general >= 0 %}positive-text{% else %}negative-text{% endif %}">
+                ${{ saldo_general }}
+            </h3>
+        </div>
+    </div>
+
+    <!-- Botones de Navegación -->
+    <div class="btn-group-nav">
+        <a href="{% url 'ver_gastos' %}" class="btn btn-primary">Ver Todos los Gastos</a>
+        <a href="{% url 'reportes_mensuales' %}" class="btn btn-info">Reportes Mensuales</a>
+    </div>
+
+    <!-- Tabla de Personas -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">📋 Detalle de Ingresos y Gastos por Persona</h5>
+        </div>
+        <div class="card-body">
+            {% if datos_personas %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Ocupación</th>
+                            <th>Ingreso Mensual</th>
+                            <th>Gastos Registrados</th>
+                            <th>Gastos Asignados</th>
+                            <th>Cantidad de Gastos</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dato in datos_personas %}
+                        <tr>
+                            <td>
+                                {% if dato.persona.foto %}
+                                    <img src="{{ dato.persona.foto.url }}" alt="{{ dato.persona.Nombres }}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                                {% else %}
+                                    <span style="color: #999; font-size: 0.85rem;">Sin foto</span>
+                                {% endif %}
+                            </td>
+                            <td class="persona-name">{{ dato.persona.Nombres }}</td>
+                            <td>{{ dato.persona.edad|default:"—" }}</td>
+                            <td>{{ dato.persona.ocupacion|default:"—" }}</td>
+                            <td class="currency">${{ dato.ingreso_mensual }}</td>
+                            <td class="currency">${{ dato.gastos_mensuales }}</td>
+                            <td class="currency">${{ dato.gastos_asignados }}</td>
+                            <td class="text-center">
+                                {% if dato.cantidad_gastos > 0 %}
+                                    <span class="badge badge-primary">{{ dato.cantidad_gastos }}</span>
+                                {% else %}
+                                    <span class="text-muted">0</span>
+                                {% endif %}
+                            </td>
+                            <td class="currency {{ dato.saldo_color }}">
+                                ${{ dato.saldo }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="total-row">
+                            <td colspan="2">TOTAL</td>
+                            <td colspan="2"></td>
+                            <td class="currency">${{ total_ingresos }}</td>
+                            <td class="currency">${{ total_gastos }}</td>
+                            <td class="currency">${{ total_asignados }}</td>
+                            <td></td>
+                            <td class="currency {{ saldo_color }}">
+                                ${{ saldo_general }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No hay personas registradas
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Explicación de Campos -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h6 class="mb-0">ℹ️ Explicación de Campos</h6>
+        </div>
+        <div class="card-body">
+            <ul class="mb-0">
+                <li><strong>Ingreso Mensual:</strong> Ingresos mensuales registrados por la persona</li>
+                <li><strong>Gastos Registrados:</strong> Gastos mensuales registrados en el perfil de la persona</li>
+                <li><strong>Gastos Asignados:</strong> Gastos del sistema asignados a esta persona</li>
+                <li><strong>Cantidad de Gastos:</strong> Número de gastos asignados a esta persona</li>
+                <li><strong>Saldo:</strong> Diferencia entre ingreso mensual y gastos registrados (Ingreso - Gastos)</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

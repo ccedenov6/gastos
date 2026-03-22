@@ -1,0 +1,41 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#a8d8f0" stroke="#87ceeb" stroke-width="3"/>
+  
+  <!-- Bird (left side) -->
+  <g transform="translate(50, 60)">
+    <!-- Bird body -->
+    <ellipse cx="0" cy="0" rx="12" ry="10" fill="#2ecc71"/>
+    <!-- Bird head -->
+    <circle cx="8" cy="-5" r="8" fill="#2ecc71"/>
+    <!-- Bird eye -->
+    <circle cx="11" cy="-6" r="2" fill="white"/>
+    <!-- Bird beak -->
+    <polygon points="14,-5 18,-5 16,-3" fill="#f39c12"/>
+    <!-- Bird wing -->
+    <path d="M 2 -2 Q -8 -5 -10 2 Q -8 0 0 0" fill="#27ae60"/>
+    <!-- Bird tail -->
+    <path d="M -8 0 L -15 -3 L -12 2 Z" fill="#27ae60"/>
+  </g>
+  
+  <!-- Coin (right side) -->
+  <g transform="translate(110, 70)">
+    <!-- Coin circle -->
+    <circle cx="0" cy="0" r="16" fill="#f1c40f" stroke="#f39c12" stroke-width="2"/>
+    <!-- Dollar symbol -->
+    <text x="0" y="6" font-size="20" font-weight="bold" fill="#e67e22" text-anchor="middle">$</text>
+  </g>
+  
+  <!-- Chart bars (bottom) -->
+  <g transform="translate(70, 110)">
+    <!-- Bar 1 -->
+    <rect x="5" y="15" width="8" height="20" fill="#3498db" rx="2"/>
+    <!-- Bar 2 -->
+    <rect x="18" y="5" width="8" height="30" fill="#3498db" rx="2"/>
+    <!-- Bar 3 -->
+    <rect x="31" y="10" width="8" height="25" fill="#3498db" rx="2"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="160" font-size="18" font-weight="bold" fill="#2c3e50" text-anchor="middle">GastoFácil</text>
+</svg>

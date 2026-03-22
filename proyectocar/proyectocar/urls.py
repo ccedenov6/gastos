@@ -19,16 +19,32 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+
 from app.personas.views import *
 from app.gastos.views import *
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
-    path('', inicio, name='inicio'),
-    path('iniciogastos/', Home.as_view(), name="iniciogastos"),
-    path('agregargastos/', addGastos.as_view(), name="agregargastos"),
-    path('iniciopersonas/', Home.as_view(), name="iniciopersonas"),
-    path('agregarpersonas/', addPersonas.as_view(), name="agregarpersona"),
+
+    # AUTENTICACIÓN
+    path('', login_view, name='login'),
+    path('registro/', registro_view, name='registro'),
+
+    # INICIO - Página principal centralizada
+    path('dashboard/', inicio, name='inicio'),
+
+    # PERSONAS
+    path('agregarpersonas/', addPersonas.as_view(), name='agregarpersonas'),
+    path('verpersonas/', ver_personas, name='ver_personas'),
+
+    # GASTOS
+    path('agregargastos/', addGastos.as_view(), name='agregargastos'),
+    path('vergastos/', ver_gastos, name='ver_gastos'),
+    path('reportes-mensuales/', reportes_mensuales, name='reportes_mensuales'),
+    path('reportes-personas/', reportes_personas, name='reportes_personas'),
+
+
 ]
 
 if settings.DEBUG:
