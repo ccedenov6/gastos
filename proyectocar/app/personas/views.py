@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 from .models import Persona
+from .forms import PersonaForm
 from django.shortcuts import render 
 
 def login_view(request):
@@ -21,7 +22,7 @@ class Home(TemplateView):
 class addPersonas(CreateView):
     model = Persona
     template_name = "agregarPersonas.html"
-    fields = "__all__"
+    form_class = PersonaForm
     success_url = reverse_lazy('inicio')
 
 

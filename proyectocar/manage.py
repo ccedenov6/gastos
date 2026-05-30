@@ -3,6 +3,8 @@
 import os
 import sys
 
+# Agrega la carpeta raíz al path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def main():
     """Run administrative tasks."""

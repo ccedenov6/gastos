@@ -80,49 +80,112 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
                     <div class="mb-3">
-                        <label class="form-label">Nombres</label>
+                        <label class="form-label" for="{{ form.Nombres.id_for_label }}">Nombres *</label>
                         {{ form.Nombres }}
+                        {% if form.Nombres.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.Nombres.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label>Fecha de Nacimiento</label>
-                        {{ form.fecha_nacimiento }}
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Parentesco</label>
-                        {{ form.parentesco }}
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Ocupación</label>
-                        {{ form.ocupacion }}
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Datos Médicos</label>
-                        {{ form.datos_medicos }}
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Ingreso Mensual</label>
-                        {{ form.ingreso_mensual }}
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Edad</label>
+                        <label class="form-label" for="{{ form.edad.id_for_label }}">Edad</label>
                         {{ form.edad }}
+                        {% if form.edad.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.edad.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label>Email</label>
+                        <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
                         {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.email.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Foto</label>
+                        <label class="form-label" for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de Nacimiento</label>
+                        {{ form.fecha_nacimiento }}
+                        {% if form.fecha_nacimiento.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.fecha_nacimiento.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.parentesco.id_for_label }}">Parentesco</label>
+                        {{ form.parentesco }}
+                        {% if form.parentesco.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.parentesco.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.ocupacion.id_for_label }}">Ocupación</label>
+                        {{ form.ocupacion }}
+                        {% if form.ocupacion.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.ocupacion.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.datos_medicos.id_for_label }}">Datos Médicos</label>
+                        {{ form.datos_medicos }}
+                        {% if form.datos_medicos.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.datos_medicos.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.ingreso_mensual.id_for_label }}">Ingreso Mensual</label>
+                        {{ form.ingreso_mensual }}
+                        {% if form.ingreso_mensual.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.ingreso_mensual.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.gastos_mensuales.id_for_label }}">Gastos Mensuales</label>
+                        {{ form.gastos_mensuales }}
+                        {% if form.gastos_mensuales.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.gastos_mensuales.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.foto.id_for_label }}">Foto</label>
                         {{ form.foto }}
+                        {% if form.foto.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ form.foto.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="text-center mt-4">
